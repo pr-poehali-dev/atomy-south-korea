@@ -14,6 +14,7 @@ interface Product {
   price: number;
   image: string;
   discount?: number;
+  description: string;
 }
 
 interface CartItem extends Product {
@@ -23,20 +24,124 @@ interface CartItem extends Product {
 const Index = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const products: Product[] = [
-    { id: 1, name: 'Крем для лица с коллагеном', category: 'Уход за лицом', price: 2890, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/d199a5f5-ceb6-4fd5-b1c7-503142eb3b25.jpg' },
-    { id: 2, name: 'Увлажняющая сыворотка', category: 'Уход за лицом', price: 3490, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/33a82ae7-7d12-45fc-8e73-91873d28b0d2.jpg', discount: 20 },
-    { id: 3, name: 'Очищающая пенка', category: 'Уход за лицом', price: 1590, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/d199a5f5-ceb6-4fd5-b1c7-503142eb3b25.jpg' },
-    { id: 4, name: 'Тональный крем SPF50', category: 'Макияж', price: 2190, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/33a82ae7-7d12-45fc-8e73-91873d28b0d2.jpg', discount: 15 },
-    { id: 5, name: 'Питательный крем для тела', category: 'Уход за телом', price: 1890, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/d199a5f5-ceb6-4fd5-b1c7-503142eb3b25.jpg' },
-    { id: 6, name: 'Антивозрастная маска', category: 'Уход за лицом', price: 4290, image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/33a82ae7-7d12-45fc-8e73-91873d28b0d2.jpg' },
+    { 
+      id: 1, 
+      name: 'Абсолют Селлюлар Актив Крем', 
+      category: 'skincare', 
+      price: 4890, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Антивозрастной крем с стволовыми клетками'
+    },
+    { 
+      id: 2, 
+      name: 'Абсолют Селлюлар Актив Сыворотка', 
+      category: 'skincare', 
+      price: 5290, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      discount: 15,
+      description: 'Интенсивная восстанавливающая сыворотка'
+    },
+    { 
+      id: 3, 
+      name: 'Абсолют Селлюлар Актив Эссенция', 
+      category: 'skincare', 
+      price: 3890, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Питательная эссенция для лица'
+    },
+    { 
+      id: 4, 
+      name: 'Абсолют Селлюлар Актив Тоник', 
+      category: 'skincare', 
+      price: 2490, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Увлажняющий тоник'
+    },
+    { 
+      id: 5, 
+      name: 'Зубная паста Атоми', 
+      category: 'oral', 
+      price: 890, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/f68fe83f-b40d-460d-a6c5-245ca6a9a97a.jpg',
+      description: 'Отбеливающая зубная паста с прополисом'
+    },
+    { 
+      id: 6, 
+      name: 'Омега-3', 
+      category: 'supplements', 
+      price: 2390, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/42a55dd0-62d9-4eed-83c5-719f1b980372.jpg',
+      description: 'Рыбий жир высокой концентрации'
+    },
+    { 
+      id: 7, 
+      name: 'Витамин C', 
+      category: 'supplements', 
+      price: 1890, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/42a55dd0-62d9-4eed-83c5-719f1b980372.jpg',
+      discount: 10,
+      description: 'Витамин C для иммунитета'
+    },
+    { 
+      id: 8, 
+      name: 'Пробиотики', 
+      category: 'supplements', 
+      price: 2690, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/42a55dd0-62d9-4eed-83c5-719f1b980372.jpg',
+      description: '10 миллиардов полезных бактерий'
+    },
+    { 
+      id: 9, 
+      name: 'Шампунь для волос', 
+      category: 'haircare', 
+      price: 1590, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Укрепляющий шампунь с травами'
+    },
+    { 
+      id: 10, 
+      name: 'Кондиционер для волос', 
+      category: 'haircare', 
+      price: 1590, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Питательный кондиционер'
+    },
+    { 
+      id: 11, 
+      name: 'BB крем SPF 30', 
+      category: 'makeup', 
+      price: 1990, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      description: 'Тональный BB крем с защитой от солнца'
+    },
+    { 
+      id: 12, 
+      name: 'Помада Color Lip', 
+      category: 'makeup', 
+      price: 1290, 
+      image: 'https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg',
+      discount: 20,
+      description: 'Стойкая увлажняющая помада'
+    },
+  ];
+
+  const categories = [
+    { id: 'all', name: 'Все товары', icon: 'Grid3x3' },
+    { id: 'skincare', name: 'Уход за лицом', icon: 'Sparkles' },
+    { id: 'supplements', name: 'БАДы и витамины', icon: 'Heart' },
+    { id: 'haircare', name: 'Уход за волосами', icon: 'Waves' },
+    { id: 'oral', name: 'Гигиена', icon: 'Smile' },
+    { id: 'makeup', name: 'Макияж', icon: 'Palette' },
   ];
 
   const reviews = [
-    { id: 1, name: 'Анна Петрова', rating: 5, text: 'Потрясающая косметика! Кожа стала заметно лучше после первой недели использования.', avatar: '👩' },
-    { id: 2, name: 'Мария Иванова', rating: 5, text: 'Отличное качество продукции. Рекомендую всем!', avatar: '👱‍♀️' },
-    { id: 3, name: 'Елена Сидорова', rating: 4, text: 'Хороший результат, приятная текстура. Буду заказывать ещё.', avatar: '👩‍🦰' },
+    { id: 1, name: 'Елена Смирнова', rating: 5, text: 'Абсолют крем просто волшебный! Кожа стала упругой и сияющей. Заказываю уже третью баночку.', avatar: '👩' },
+    { id: 2, name: 'Ольга Петрова', rating: 5, text: 'Зубная паста супер! Зубы стали белее, десны здоровее. Вся семья перешла на Атоми.', avatar: '👱‍♀️' },
+    { id: 3, name: 'Анна Иванова', rating: 5, text: 'Пробиотики помогли наладить пищеварение. Чувствую себя намного лучше!', avatar: '👩‍🦰' },
+    { id: 4, name: 'Мария Соколова', rating: 5, text: 'Качество продукции на высоте! Особенно понравилась сыворотка - результат виден сразу.', avatar: '🧑‍🦱' },
   ];
 
   const addToCart = (product: Product) => {
@@ -73,6 +178,10 @@ const Index = () => {
     const element = document.getElementById(section);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const filteredProducts = selectedCategory === 'all' 
+    ? products 
+    : products.filter(p => p.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
@@ -119,7 +228,7 @@ const Index = () => {
                   )}
                 </Button>
               </SheetTrigger>
-              <SheetContent className="w-full sm:max-w-md">
+              <SheetContent className="w-full sm:max-w-md overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle className="flex items-center gap-2">
                     <Icon name="ShoppingBag" size={24} />
@@ -182,7 +291,7 @@ const Index = () => {
                           </CardContent>
                         </Card>
                       ))}
-                      <div className="border-t pt-4">
+                      <div className="border-t pt-4 sticky bottom-0 bg-white">
                         <div className="flex justify-between items-center mb-4">
                           <span className="text-lg font-semibold">Итого:</span>
                           <span className="text-2xl font-bold text-primary">
@@ -207,33 +316,33 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
               <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-600">
-                Южно-Корейская косметика премиум класса
+                Официальный дистрибьютор Атоми в России
               </Badge>
               <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                Красота и здоровье
+                Продукция Атоми
                 <span className="block bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  в каждом продукте
+                  премиум качества
                 </span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Откройте для себя мир инновационной косметики Атоми. Продукция мирового класса для вашей красоты и здоровья.
+                Южно-корейская косметика и товары для здоровья мирового класса. Инновационные технологии для вашей красоты и долголетия.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700">
+                <Button size="lg" className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700" onClick={() => scrollToSection('catalog')}>
                   <Icon name="ShoppingBag" size={20} className="mr-2" />
-                  Каталог продукции
+                  Смотреть каталог
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
                   <Icon name="MessageCircle" size={20} className="mr-2" />
-                  Онлайн консультация
+                  Консультация
                 </Button>
               </div>
             </div>
             <div className="relative animate-scale-in">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-400/20 to-purple-600/20 rounded-3xl blur-3xl"></div>
               <img
-                src="https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/4270454c-acc3-4a80-88a5-c86a0b454d7e.jpg"
-                alt="Beauty"
+                src="https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/b3d74874-b882-4d05-8738-2afd3f2b05fe.jpg"
+                alt="Atomy Products"
                 className="relative rounded-3xl shadow-2xl w-full"
               />
             </div>
@@ -244,38 +353,52 @@ const Index = () => {
       <section id="catalog" className="py-20 px-4 bg-white/50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <Badge className="mb-4">Каталог</Badge>
-            <h2 className="text-4xl font-bold mb-4">Наша продукция</h2>
+            <Badge className="mb-4">Каталог продукции</Badge>
+            <h2 className="text-4xl font-bold mb-4">Наши товары</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Широкий ассортимент косметических средств для ухода за кожей и красоты
+              Широкий ассортимент продукции Атоми для красоты, здоровья и дома
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map(product => (
+          <div className="mb-8 flex flex-wrap gap-3 justify-center">
+            {categories.map(cat => (
+              <Button
+                key={cat.id}
+                variant={selectedCategory === cat.id ? 'default' : 'outline'}
+                onClick={() => setSelectedCategory(cat.id)}
+                className="gap-2"
+              >
+                <Icon name={cat.icon} size={18} />
+                {cat.name}
+              </Button>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredProducts.map(product => (
               <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="relative">
-                  <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
+                  <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
                   {product.discount && (
                     <Badge className="absolute top-4 right-4 bg-red-500">-{product.discount}%</Badge>
                   )}
                 </div>
-                <CardContent className="p-6">
-                  <Badge variant="secondary" className="mb-2">{product.category}</Badge>
-                  <h3 className="font-semibold text-lg mb-3">{product.name}</h3>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-base mb-2">{product.name}</h3>
+                  <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{product.description}</p>
                   <div className="flex items-center justify-between">
                     <div>
                       {product.discount ? (
-                        <>
-                          <span className="text-sm text-muted-foreground line-through mr-2">
+                        <div className="flex flex-col">
+                          <span className="text-xs text-muted-foreground line-through">
                             {product.price} ₽
                           </span>
-                          <span className="text-xl font-bold text-primary">
+                          <span className="text-lg font-bold text-primary">
                             {Math.round(product.price * (1 - product.discount / 100))} ₽
                           </span>
-                        </>
+                        </div>
                       ) : (
-                        <span className="text-xl font-bold">{product.price} ₽</span>
+                        <span className="text-lg font-bold">{product.price} ₽</span>
                       )}
                     </div>
                     <Button onClick={() => addToCart(product)} size="sm">
@@ -293,20 +416,20 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="mb-4">О компании</Badge>
-              <h2 className="text-4xl font-bold mb-6">Атоми - качество мирового класса</h2>
+              <Badge className="mb-4">О компании Атоми</Badge>
+              <h2 className="text-4xl font-bold mb-6">Качество мирового уровня</h2>
               <p className="text-muted-foreground mb-6">
-                Атоми - южно-корейская компания, специализирующаяся на производстве высококачественной косметики и товаров для здоровья. 
-                Мы используем передовые технологии и натуральные ингредиенты для создания продукции мирового уровня.
+                Атоми (Atomy) - южно-корейская компания, основанная в 2009 году. Специализируется на производстве высококачественной косметики, средств для здоровья и товаров для дома. Философия компании - "Абсолютное качество по абсолютной цене".
               </p>
               <div className="space-y-4">
                 {[
-                  { icon: 'Award', title: 'Премиум качество', desc: 'Сертифицированная продукция международного стандарта' },
-                  { icon: 'Leaf', title: 'Натуральные ингредиенты', desc: 'Только проверенные и безопасные компоненты' },
-                  { icon: 'Globe', title: 'Мировое признание', desc: 'Присутствие в 30+ странах мира' },
+                  { icon: 'Award', title: 'Сертифицировано', desc: 'Международные сертификаты качества ISO, GMP' },
+                  { icon: 'Leaf', title: 'Натуральный состав', desc: 'Только проверенные ингредиенты без вредных добавок' },
+                  { icon: 'Globe', title: 'Мировой бренд', desc: 'Представлены в 30+ странах на 6 континентах' },
+                  { icon: 'Users', title: 'Миллионы клиентов', desc: 'Более 15 миллионов довольных покупателей' },
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-4 items-start">
-                    <div className="bg-gradient-to-br from-pink-500 to-purple-600 p-3 rounded-xl">
+                    <div className="bg-gradient-to-br from-pink-500 to-purple-600 p-3 rounded-xl shrink-0">
                       <Icon name={item.icon} size={24} className="text-white" />
                     </div>
                     <div>
@@ -319,8 +442,8 @@ const Index = () => {
             </div>
             <div className="relative">
               <img
-                src="https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/33a82ae7-7d12-45fc-8e73-91873d28b0d2.jpg"
-                alt="Products"
+                src="https://cdn.poehali.dev/projects/2318247a-37a8-411c-afd0-21074f690ecf/files/42a55dd0-62d9-4eed-83c5-719f1b980372.jpg"
+                alt="Atomy Products"
                 className="rounded-3xl shadow-2xl"
               />
             </div>
@@ -333,10 +456,10 @@ const Index = () => {
           <Icon name="Sparkles" size={48} className="mx-auto mb-6" />
           <h2 className="text-4xl font-bold mb-4">Специальные предложения</h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto">
-            Успейте приобрести продукцию со скидкой до 20%! Акция действует ограниченное время.
+            Скидки до 20% на избранные товары! Абсолют Селлюлар Актив Сыворотка, Помада Color Lip и Витамин C по специальным ценам.
           </p>
           <Button size="lg" variant="secondary" onClick={() => scrollToSection('catalog')}>
-            Посмотреть акции
+            Смотреть акции
           </Button>
         </div>
       </section>
@@ -344,17 +467,17 @@ const Index = () => {
       <section id="reviews" className="py-20 px-4 bg-white/50">
         <div className="container mx-auto">
           <div className="text-center mb-12">
-            <Badge className="mb-4">Отзывы</Badge>
-            <h2 className="text-4xl font-bold mb-4">Что говорят наши клиенты</h2>
+            <Badge className="mb-4">Отзывы клиентов</Badge>
+            <h2 className="text-4xl font-bold mb-4">Что говорят наши покупатели</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {reviews.map(review => (
               <Card key={review.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="text-4xl">{review.avatar}</div>
                     <div>
-                      <h4 className="font-semibold">{review.name}</h4>
+                      <h4 className="font-semibold text-sm">{review.name}</h4>
                       <div className="flex gap-1">
                         {[...Array(review.rating)].map((_, i) => (
                           <Icon key={i} name="Star" size={14} className="text-yellow-400 fill-yellow-400" />
@@ -362,7 +485,7 @@ const Index = () => {
                       </div>
                     </div>
                   </div>
-                  <p className="text-muted-foreground">{review.text}</p>
+                  <p className="text-sm text-muted-foreground">{review.text}</p>
                 </CardContent>
               </Card>
             ))}
@@ -376,7 +499,7 @@ const Index = () => {
             <Badge className="mb-4">Контакты</Badge>
             <h2 className="text-4xl font-bold mb-4">Свяжитесь с нами</h2>
             <p className="text-muted-foreground">
-              Получите бесплатную консультацию от наших специалистов
+              Бесплатная консультация по подбору продукции и регистрации
             </p>
           </div>
 
@@ -388,13 +511,13 @@ const Index = () => {
                   Онлайн консультация
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  Наши косметологи и визажисты готовы ответить на ваши вопросы и помочь подобрать идеальные средства для вашей кожи.
+                  Наши консультанты помогут подобрать продукцию, расскажут о программе лояльности и возможностях сотрудничества с Атоми.
                 </p>
                 <form className="space-y-4">
                   <Input placeholder="Ваше имя" />
                   <Input type="email" placeholder="Email" />
                   <Input type="tel" placeholder="Телефон" />
-                  <Textarea placeholder="Опишите ваш запрос" rows={4} />
+                  <Textarea placeholder="Ваш вопрос" rows={4} />
                   <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-600">
                     Отправить заявку
                   </Button>
@@ -409,7 +532,8 @@ const Index = () => {
                     <Icon name="Phone" size={20} className="text-primary" />
                     Телефон
                   </h4>
-                  <p className="text-muted-foreground">+7 (800) 555-35-35</p>
+                  <p className="text-muted-foreground">+7 (800) 100-80-90</p>
+                  <p className="text-sm text-muted-foreground mt-1">Звонок по России бесплатный</p>
                 </CardContent>
               </Card>
               <Card>
@@ -418,7 +542,7 @@ const Index = () => {
                     <Icon name="Mail" size={20} className="text-primary" />
                     Email
                   </h4>
-                  <p className="text-muted-foreground">info@atomy-russia.ru</p>
+                  <p className="text-muted-foreground">info@atomy-russia.com</p>
                 </CardContent>
               </Card>
               <Card>
@@ -427,7 +551,7 @@ const Index = () => {
                     <Icon name="Clock" size={20} className="text-primary" />
                     Режим работы
                   </h4>
-                  <p className="text-muted-foreground">Пн-Пт: 9:00 - 20:00<br />Сб-Вс: 10:00 - 18:00</p>
+                  <p className="text-muted-foreground">Пн-Пт: 9:00 - 21:00<br />Сб-Вс: 10:00 - 18:00</p>
                 </CardContent>
               </Card>
             </div>
@@ -436,28 +560,44 @@ const Index = () => {
       </section>
 
       <footer className="bg-gray-900 text-white py-12 px-4">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="text-3xl">✨</div>
-            <h3 className="text-2xl font-bold">Атоми</h3>
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="text-3xl">✨</div>
+                <h3 className="text-2xl font-bold">Атоми</h3>
+              </div>
+              <p className="text-gray-400">
+                Южно-корейская продукция премиум качества для красоты и здоровья
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Популярные категории</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>Абсолют Селлюлар Актив</li>
+                <li>БАДы и витамины</li>
+                <li>Уход за волосами</li>
+                <li>Декоративная косметика</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Мы в соцсетях</h4>
+              <div className="flex gap-4">
+                <a href="#" className="hover:text-primary transition-colors">
+                  <Icon name="Instagram" size={24} />
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  <Icon name="MessageCircle" size={24} />
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                  <Icon name="Youtube" size={24} />
+                </a>
+              </div>
+            </div>
           </div>
-          <p className="text-gray-400 mb-6">
-            Южно-Корейская косметика премиум класса
-          </p>
-          <div className="flex justify-center gap-6 mb-6">
-            <a href="#" className="hover:text-primary transition-colors">
-              <Icon name="Instagram" size={24} />
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              <Icon name="Facebook" size={24} />
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              <Icon name="Youtube" size={24} />
-            </a>
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+            <p>© 2024 Atomy Russia. Все права защищены.</p>
           </div>
-          <p className="text-sm text-gray-500">
-            © 2024 Атоми. Все права защищены.
-          </p>
         </div>
       </footer>
     </div>
